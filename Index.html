@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Emojify 😾</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f1f1f1;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      resize: both;
+      overflow: auto;
+      border: none;
+      outline: none;
+    }
+
+    .button-85 {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      outline: none;
+      color: rgb(0, 0, 0);
+      background-color: #ddf3f0;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .button-85:hover {
+      transform: scale(0.95);
+    }
+
+    .button-85:active {
+      transform: scale(1.3);
+      transition: transform 1.5s ease-in-out;
+    }
+
+    .button-85:before {
+      content: "";
+      background: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7300,
+        #fffb00,
+        #48ff00,
+        #00ffd5,
+        #002bff,
+        #7a00ff,
+        #ff00c8,
+        #ff0000
+      );
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(14px);
+      -webkit-filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing-button-85 20s linear infinite;
+      transition: opacity 0.3s ease-in-out;
+      border-radius: 10px;
+      opacity: 0.4;
+    }
+
+    @keyframes glowing-button-85 {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 400% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+
+    .button-85:after {
+      z-index: -1;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+    }
+
+    .outputBox {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      background-color: #f9f9f9;
+      width: 300px;
+      text-align: center;
+      white-space: pre-wrap;
+    }
+  </style>
+  <script>
+    function emojify() {
+  function getRandomEmoji() {
+    const faceEmojiRange = [0x1F600, 0x1F64F];
+    const allEmojiRange = [0x1F300, 0x1F9DF];
+
+    const emojiCategoryProbability = Math.random();
+
+    let randomUnicode;
+    if (emojiCategoryProbability <= 0.90) {
+      randomUnicode = Math.floor(Math.random() * (faceEmojiRange[1] - faceEmojiRange[0] + 1)) + faceEmojiRange[0];
+    } else {
+      randomUnicode = Math.floor(Math.random() * (allEmojiRange[1] - allEmojiRange[0] + 1)) + allEmojiRange[0];
+    }
+
+    return String.fromCodePoint(randomUnicode);
+  }
+
+  const userInput = document.getElementById("inputDecode").value;
+
+  if (userInput !== null) {
+    const replacedText = userInput.replace(/ /g, () => ` ${getRandomEmoji()} `);
+    const outputElement = document.getElementById("outputDecode");
+    outputElement.textContent = "";
+
+    for (const char of replacedText) {
+      if (char === '\n') {
+        const br = document.createElement('br');
+        outputElement.appendChild(br);
+      } else {
+        const textNode = document.createTextNode(char);
+        outputElement.appendChild(textNode);
+      }
+    }
+
+    console.log(outputElement.textContent);
+  }
+}
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Emojify by petiuka</h1>
+    <h2>Emojify 😂</h2>
+    <input type="text" id="inputDecode" placeholder="Enter text to add emojis">
+    <button class="button-85" role="button" onclick="emojify()">Emojify</button>
+    <div class="outputBox" id="outputDecode"></div>
+  </div>
+</body>
+</html>
