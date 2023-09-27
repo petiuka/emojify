@@ -28,8 +28,13 @@
       margin-bottom: 20px;
     }
 
-    input[type="text"] {
+    textarea {
       width: 300px;
+      height: 250px;
+      min-width: 250px;
+      min-height: 50px;
+      max-width: 500px;
+      max-height: 600px;
       padding: 10px;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -124,56 +129,57 @@
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       background-color: #f9f9f9;
-      width: 300px;
+      width: 100%;
       text-align: center;
       white-space: pre-wrap;
     }
   </style>
   <script>
     function emojify() {
-  function getRandomEmoji() {
-    const faceEmojiRange = [0x1F600, 0x1F64F];
-    const allEmojiRange = [0x1F300, 0x1F9DF];
+      function getRandomEmoji() {
+        const faceEmojiRange = [0x1F600, 0x1F64F];
+        const allEmojiRange = [0x1F300, 0x1F9DF];
 
-    const emojiCategoryProbability = Math.random();
+        const emojiCategoryProbability = Math.random();
 
-    let randomUnicode;
-    if (emojiCategoryProbability <= 0.90) {
-      randomUnicode = Math.floor(Math.random() * (faceEmojiRange[1] - faceEmojiRange[0] + 1)) + faceEmojiRange[0];
-    } else {
-      randomUnicode = Math.floor(Math.random() * (allEmojiRange[1] - allEmojiRange[0] + 1)) + allEmojiRange[0];
-    }
+        let randomUnicode;
+        if (emojiCategoryProbability <= 0.90) {
+          randomUnicode = Math.floor(Math.random() * (faceEmojiRange[1] - faceEmojiRange[0] + 1)) + faceEmojiRange[0];
+        } else {
+          randomUnicode = Math.floor(Math.random() * (allEmojiRange[1] - allEmojiRange[0] + 1)) + allEmojiRange[0];
+        }
 
-    return String.fromCodePoint(randomUnicode);
-  }
+        return String.fromCodePoint(randomUnicode);
+      }
 
-  const userInput = document.getElementById("inputDecode").value;
+      const userInput = document.getElementById("inputDecode").value;
 
-  if (userInput !== null) {
-    const replacedText = userInput.replace(/ /g, () => ` ${getRandomEmoji()} `);
-    const outputElement = document.getElementById("outputDecode");
-    outputElement.textContent = "";
+      if (userInput !== null) {
+        const replacedText = userInput.replace(/ /g, () => ` ${getRandomEmoji()} `);
+        const outputElement = document.getElementById("outputDecode");
+        outputElement.textContent = "";
 
-    for (const char of replacedText) {
-      if (char === '\n') {
-        const br = document.createElement('br');
-        outputElement.appendChild(br);
-      } else {
-        const textNode = document.createTextNode(char);
-        outputElement.appendChild(textNode);
+        const lines = replacedText.split('\n'); // Split input by lines
+
+        lines.forEach((line, index) => {
+          if (index !== 0) {
+            const br = document.createElement('br');
+            outputElement.appendChild(br);
+          }
+          for (const char of line) {
+            const textNode = document.createTextNode(char);
+            outputElement.appendChild(textNode);
+          }
+        });
       }
     }
-
-    console.log(outputElement.textContent);
-  }
-}
   </script>
 </head>
 <body>
   <div class="container">
     <h1>Emojify by petiuka</h1>
     <h2>Emojify 😂</h2>
-    <input type="text" id="inputDecode" placeholder="Enter text to add emojis">
+    <textarea id="inputDecode" placeholder="Enter text to add emojis"></textarea>
     <button class="button-85" role="button" onclick="emojify()">Emojify</button>
     <div class="outputBox" id="outputDecode"></div>
   </div>
